@@ -17,42 +17,35 @@ var cerdo = { url: "https://static.platzi.com/media/files/uso-y-carga-de-imagene
 
 fondo.imagen = new Image();
 fondo.imagen.src = fondo.url;
-fondo.imagen.addEventListener("load", cargarFondo);
+fondo.imagen.addEventListener("load", ()=>{
+    cargarObjeto(fondo)
+});
 
 vaca.imagen = new Image();
 vaca.imagen.src = vaca.url;
-vaca.imagen.addEventListener("load", cargarVacas);
+// se define una funcion anonima que cargará la imagen
+vaca.imagen.addEventListener("load", () => {
+    cargarObjeto(vaca);
+});
 
 pollo.imagen = new Image();
 pollo.imagen.src = pollo.url;
-pollo.imagen.addEventListener("load", cargarPollo);
+pollo.imagen.addEventListener("load", () => {
+    cargarObjeto(pollo);
+});
 
 cerdo.imagen = new Image();
 cerdo.imagen.src = cerdo.url;
-cerdo.imagen.addEventListener("load", cargarCerdo);
+cerdo.imagen.addEventListener("load", () => {
+    cargarObjeto(cerdo);
+});
 
 // range of random elements in the screen
 var cantidad = aleatorio(1, 10);
 
 //functions
-function cargarFondo() {
-    fondo.cargaOK = true;
-    dibujar();
-}
-
-function cargarVacas() {
-    vaca.cargaOK = true;
-    dibujar();
-}
-
-function cargarPollo() {
-    pollo.cargaOK = true;
-    dibujar();
-}
-
-
-function cargarCerdo() {
-    cerdo.cargaOK = true;
+function cargarObjeto(objetoImagen) {
+    objetoImagen.cargaOK = true;
     dibujar();
 }
 
