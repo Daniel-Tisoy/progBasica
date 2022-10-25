@@ -15,74 +15,56 @@ var vaca = { url: "https://static.platzi.com/media/files/uso-y-carga-de-imagenes
 var pollo = { url: "https://static.platzi.com/media/files/uso-y-carga-de-imagenes-en-canvas/pollo.png", cargaOK: false };
 var cerdo = { url: "https://static.platzi.com/media/files/uso-y-carga-de-imagenes-en-canvas/cerdo.png", cargaOK: false };
 
-fondo.imagen = new Image();
-fondo.imagen.src = fondo.url;
-fondo.imagen.addEventListener("load", ()=>{
-    cargarObjeto(fondo)
-});
-
-vaca.imagen = new Image();
-vaca.imagen.src = vaca.url;
-// se define una funcion anonima que cargará la imagen
-vaca.imagen.addEventListener("load", () => {
-    cargarObjeto(vaca);
-});
-
-pollo.imagen = new Image();
-pollo.imagen.src = pollo.url;
-pollo.imagen.addEventListener("load", () => {
-    cargarObjeto(pollo);
-});
-
-cerdo.imagen = new Image();
-cerdo.imagen.src = cerdo.url;
-cerdo.imagen.addEventListener("load", () => {
-    cargarObjeto(cerdo);
-});
+configurarYDibujarObjeto(fondo);
+configurarYDibujarObjeto(vaca);
+configurarYDibujarObjeto(pollo);
+configurarYDibujarObjeto(cerdo);
 
 // range of random elements in the screen
 var cantidad = aleatorio(1, 10);
 
 //functions
-function cargarObjeto(objetoImagen) {
+
+// this function is just for configuaryDibjarObjeto
+let cargarYDibujarObjeto = (objetoImagen) => {
     objetoImagen.cargaOK = true;
     dibujar();
 }
 
+function configurarYDibujarObjeto(objetoImagen) {
+    //nest the new object in the parameter
+    objetoImagen.imagen = new Image();
+    objetoImagen.imagen.src = objetoImagen.url;
+    objetoImagen.imagen.addEventListener("load", () => {
+        cargarYDibujarObjeto(objetoImagen);
+    })
+}
+
+// this function is just for use with dibujar funct
+let dibujarAnimales = (animal) => {
+    for (let v = 0; v < cantidad; v++) {
+        let x = aleatorio(0, 7);
+        let y = aleatorio(0, 10);
+        x *= 60;
+        y *= 40;
+        papel.drawImage(animal.imagen, x, y);
+    }
+}
+
 function dibujar() {
+
     if (fondo.cargaOK) {
         papel.drawImage(fondo.imagen, 0, 0);
     }
     if (vaca.cargaOK) {
-        for (var v = 0; v < cantidad; v++) {
-            let coordeanas = generarCoordenadas()
-            papel.drawImage(vaca.imagen, coordeanas.x, coordeanas.y);
-        }
+        dibujarAnimales(vaca);
     }
     if (pollo.cargaOK) {
-        for (var v = 0; v < cantidad; v++) {
-            let coordeanas = generarCoordenadas()
-            papel.drawImage(pollo.imagen, coordeanas.x, coordeanas.y);
-        }
+        dibujarAnimales(pollo);
     }
     if (cerdo.cargaOK) {
-        for (var v = 0; v < cantidad; v++) {
-            let coordeanas = generarCoordenadas()
-            papel.drawImage(cerdo.imagen, coordeanas.x, coordeanas.y);
-        }
+        dibujarAnimales(cerdo);
     }
-}
-
-function generarCoordenadas() {
-    let x = aleatorio(0, 7);
-    let y = aleatorio(0, 10);
-    x *= 60;
-    y *= 40;
-    let coordeanas = {
-        x: x,
-        y: y
-    }
-    return coordeanas;
 }
 
 function aleatorio(min, maxi) {
